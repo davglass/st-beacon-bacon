@@ -26,7 +26,7 @@ definition(
 
 
 preferences {
-    page(name: "viewURL")
+    page(name: "viewURL", uninstall: true)
 }
 
 mappings {
@@ -69,8 +69,9 @@ def beaconHandler() {
     log.debug "Region: ${params.region}"
     log.debug "Distance: ${params.distance}"
     log.debug "Beacon: ${params.beacon}"
+    log.debug "app.distance: ${distance.toLowerCase()}"
     
-    if (params.distance && params.distance == "near") {
+    if (params.distance && params.distance.toLowerCase() == distance.toLowerCase()) {
         log.debug "Turning on lights.."
         switches.each {
             it.on();
@@ -91,6 +92,9 @@ def viewURL() {
     dynamicPage(name: "viewURL", title: "${title ?: location.name} URL", install:true, nextPage: null) {
         section("Light to turn on?") {
             input "switches", "capability.switch", multiple: true
+        }
+        section("Minimum Distance") {
+            input(name: "distance", type: "enum", title: "Distance", options: ["Immediate", "Near", "Far"], required: true)
         }
         section() {
             paragraph "Copy the URL below and add it to the Beecon app for alerts."

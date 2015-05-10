@@ -32,4 +32,8 @@ Beecon+ Setup
       * Do: Select Call URL
       * Paste in the oAuth URL from the SmartApp
     * Save Everything
+    * Open The Preferences
+       * More Options
+       * Select "URL actions POST vars"
+       * Save
     * Give it a shot
