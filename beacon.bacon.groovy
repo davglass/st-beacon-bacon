@@ -74,12 +74,7 @@ def beaconHandler() {
     if (params.distance && params.distance.toLowerCase() == distance.toLowerCase()) {
         log.debug "Turning on lights.."
         switches.each {
-            it.on();
-        }
-    } else {
-        log.debug "Turning off lights.."
-        switches.each {
-            it.off();
+            it."${status.toLowerCase()}"();
         }
     }
 }
@@ -92,6 +87,9 @@ def viewURL() {
     dynamicPage(name: "viewURL", title: "${title ?: location.name} URL", install:true, nextPage: null) {
         section("Light to turn on?") {
             input "switches", "capability.switch", multiple: true
+        }
+        section("Light On or Off") {
+            input(name: "status", type: "enum", title: "On/Off", options: ["On", "Off"], required: true)
         }
         section("Minimum Distance") {
             input(name: "distance", type: "enum", title: "Distance", options: ["Immediate", "Near", "Far"], required: true)
